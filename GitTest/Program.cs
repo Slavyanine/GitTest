@@ -24,18 +24,13 @@ double CalculateBMI(double weight, double height)
 }
 
 const calculateResults = (data) => {
-    const results = [];
-    for (let i = 0; i < data.length; i++) {
-        let sum = data[i].value;
-        for (let j = i + 1; j < data.length; j++) {
-            if (data[i].id === data[j].id) {
-                sum += data[j].value;
-            }
-        }
-        // Проверяем, не добавили ли уже этот id в результаты
-        if (!results.some(entry => entry[0] === data[i].id)) {
-            results.push([data[i].id, sum]);
+    const map = new Map();
+    for (const item of data) {
+        if (map.has(item.id)) {
+            map.set(item.id, map.get(item.id) + item.value);
+        } else {
+            map.set(item.id, item.value);
         }
     }
-    return results;
+    return Array.from(map.entries());
 };
