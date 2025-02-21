@@ -22,3 +22,20 @@ double CalculateBMI(double weight, double height)
 {
     return weight / (height * height);
 }
+
+const calculateResults = (data) => {
+    const results = [];
+    for (let i = 0; i < data.length; i++) {
+        let sum = data[i].value;
+        for (let j = i + 1; j < data.length; j++) {
+            if (data[i].id === data[j].id) {
+                sum += data[j].value;
+            }
+        }
+        // Проверяем, не добавили ли уже этот id в результаты
+        if (!results.some(entry => entry[0] === data[i].id)) {
+            results.push([data[i].id, sum]);
+        }
+    }
+    return results;
+};
