@@ -6,36 +6,36 @@ Console.WriteLine("Test 5");
 Console.WriteLine("Test 6");
 Console.WriteLine("Test 7");
 
-/// <summary>
-/// Calculate the body mass index (BMI) based on weight in kg and height in meter
-/// </summary>
-/// <param name="weight">
-/// The weight in kilogram
-/// </param>
-/// <param name="height">
-/// The height in meter
-/// </param>
-/// <returns>
-/// The body mass index
-/// </returns>
-double CalculateBMI(double weight, double height)
+public class OrderProcessor
 {
-    return weight / (height * height);
-}
+    public string ProcessOrder(Order order)
+    {
+        if (order.Items.Count == 0)
+            throw new ArgumentException("Order cannot be empty");
 
-const calculateResults = (data) => {
-    const results = [];
-    for (let i = 0; i < data.length; i++) {
-        let sum = data[i].value;
-        for (let j = i + 1; j < data.length; j++) {
-            if (data[i].id === data[j].id) {
-                sum += data[j].value;
+        if (order.Customer.IsBlocked)
+            throw new InvalidOperationException("Customer is blocked");
+
+        if (!order.IsPaid)
+        {
+            if (order.PaymentMethod == "CreditCard")
+            {
+                if (string.IsNullOrEmpty(order.CreditCardNumber))
+                    throw new ArgumentException("Credit card required");
+                // Логика оплаты...
+            }
+            else if (order.PaymentMethod == "PayPal")
+            {
+                if (string.IsNullOrEmpty(order.PaypalEmail))
+                    throw new ArgumentException("PayPal email required");
+                // Логика PayPal...
             }
         }
-        // Проверяем, не добавили ли уже этот id в результаты
-        if (!results.some(entry => entry[0] === data[i].id)) {
-            results.push([data[i].id, sum]);
-        }
+
+        if (order.PriorityShipping && !order.Customer.IsPremium)
+            throw new InvalidOperationException("Premium required for priority");
+
+        // 10+ дополнительных условий...
+        return "Order processed";
     }
-    return results;
-};
+}
